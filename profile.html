@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Task Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .profile-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        .profile-info h1 {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin: 0;
+        }
+        .profile-info p {
+            color: var(--text-secondary);
+            margin: 0.5rem 0;
+        }
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+        .stat-item .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .stat-item .label {
+            color: var(--text-secondary);
+        }
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+        .form-section label {
+            display: block;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .form-section input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #2a4a9e);
+            color: white;
+        }
+        .btn-danger {
+            background: var(--pending-color);
+            color: white;
+        }
+        .btn-secondary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-pic" id="profilePic">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-info">
+                    <h1 id="profileName">Loading...</h1>
+                    <p id="profileEmail">loading@example.com</p>
+                    <p id="profileJoined">Joined: Loading...</p>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="number" id="totalCompleted">0</div>
+                    <div class="label">Tasks Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="currentStreak">0</div>
+                    <div class="label">Current Streak</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="bestStreak">0</div>
+                    <div class="label">Best Streak</div>
+                </div>
+            </div>
+            <h2 style="margin-bottom:1.5rem; color: var(--text-color);">Edit Profile</h2>
+            <form id="profileForm">
+                <div class="form-section">
+                    <label for="editName">Full Name</label>
+                    <input type="text" id="editName">
+                </div>
+                <div class="form-section">
+                    <label for="editUsername">Username</label>
+                    <input type="text" id="editUsername">
+                </div>
+                <div class="form-section">
+                    <label for="editProfileImage">Profile Image URL</label>
+                    <input type="text" id="editProfileImage" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" id="changePasswordBtn">Change Password</button>
+                    <button type="button" class="btn btn-danger" id="deleteAccountBtn">Delete Account</button>
+                </div>
+            </form>
+            <div id="passwordForm" style="margin-top:2rem; display:none;">
+                <h3 style="color: var(--text-color); margin-bottom:1rem;">Change Password</h3>
+                <div class="form-section">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword">
+                </div>
+                <div class="form-section">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword">
+                </div>
+                <button class="btn btn-primary" id="updatePasswordBtn">Update Password</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let userData;
+
+        async function loadProfile() {
+            try {
+                const response = await fetch('/api/profile', { credentials: 'include' });
+                if (!response.ok) throw new Error('Not authorized');
+                const data = await response.json();
+                userData = data;
+                
+                document.getElementById('profileName').textContent = data.user.name;
+                document.getElementById('profileEmail').textContent = data.user.email;
+                document.getElementById('profileJoined').textContent = `Joined: ${new Date(data.user.createdAt).toLocaleDateString()}`;
+                document.getElementById('totalCompleted').textContent = data.totalCompleted;
+                document.getElementById('currentStreak').textContent = data.currentStreak;
+                document.getElementById('bestStreak').textContent = data.bestStreak;
+                document.getElementById('editName').value = data.user.name;
+                document.getElementById('editUsername').value = data.user.username || '';
+                document.getElementById('editProfileImage').value = data.user.profileImage || '';
+            } catch (error) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                await fetch('/api/profile', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        name: document.getElementById('editName').value,
+                        username: document.getElementById('editUsername').value,
+                        profileImage: document.getElementById('editProfileImage').value
+                    })
+                });
+                alert('Profile updated!');
+                loadProfile();
+            } catch (error) {
+                alert('Error updating profile');
+            }
+        });
+
+        document.getElementById('changePasswordBtn').addEventListener('click', () => {
+            document.getElementById('passwordForm').style.display = 'block';
+        });
+
+        document.getElementById('updatePasswordBtn').addEventListener('click', async () => {
+            try {
+                await fetch('/api/profile/password', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        currentPassword: document.getElementById('currentPassword').value,
+                        newPassword: document.getElementById('newPassword').value
+                    })
+                });
+                alert('Password updated!');
+                document.getElementById('passwordForm').style.display = 'none';
+            } catch (error) {
+                alert('Error updating password');
+            }
+        });
+
+        document.getElementById('deleteAccountBtn').addEventListener('click', async () => {
+            if (confirm('Are you sure you want to delete your account? This cannot be undone.')) {
+                try {
+                    await fetch('/api/profile', {
+                        method: 'DELETE',
+                        credentials: 'include'
+                    });
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    alert('Error deleting account');
+                }
+            }
+        });
+
+        loadProfile();
+    </script>
+</body>
+</html>
